@@ -171,3 +171,9 @@ test('marks/full marks are exported and imported exactly as typed', async () => 
   assert.equal(csv.split('\r\n')[3], 'Maths,3,62,B,3.0');
   assert.deepEqual(parseCsv(csv), rows);
 });
+
+test('a wrong mark is reported before missing credits', () => {
+  assert.match(gradeCourse(tu40, { credits: '', mark: '200' }, P40).error, /200|full marks/);
+  assert.equal(gradeCourse(tu40, { credits: '', mark: '80' }, P40).error, 'Enter credits');
+  assert.equal(gradeCourse(tu40, { credits: '3', mark: '' }, P40).error, 'Enter a mark');
+});

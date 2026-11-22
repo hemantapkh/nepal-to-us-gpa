@@ -111,11 +111,13 @@ export function gradeCourse(scale, course, points) {
   const c = resolveCredits(course.credits);
   const m = resolveMark(scale, course.mark);
   if (c.empty && m.empty) return { status: 'empty' };
+  // A wrong mark (e.g. 200 out of 100) is reported before missing credits: its message
+  // says how to fix it, and the page shows it while the student is still typing.
+  if (m.error && !m.noMapping) return { status: 'invalid', error: m.error };
   if (c.error) return { status: 'invalid', error: c.error };
   if (c.empty) return { status: 'invalid', error: 'Enter credits' };
   if (m.empty) return { status: 'invalid', error: 'Enter a mark' };
   if (m.noMapping) return { status: 'nomap', error: m.error, credits: c.credits };
-  if (m.error) return { status: 'invalid', error: m.error };
 
   const usGrade = m.row.usGrade;
   if (!Object.prototype.hasOwnProperty.call(points, usGrade)) {
