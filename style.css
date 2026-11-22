@@ -101,7 +101,6 @@ a { color: inherit; text-underline-offset: 2px; }
 .gh-link {
   flex: none;
   display: inline-flex; align-items: center; gap: 8px;
-  margin-top: 6px;
   padding: 6px 12px;
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);
@@ -112,6 +111,9 @@ a { color: inherit; text-underline-offset: 2px; }
   text-decoration: none;
 }
 .gh-link:hover { border-color: var(--ink); }
+.masthead-nav { display: flex; align-items: center; gap: 20px; flex: none; margin-top: 6px; }
+.nav-link { color: var(--ink); font-weight: 600; font-size: var(--step--1); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.nav-link:hover { color: var(--violet); text-decoration-thickness: 2px; }
 .gh-link svg { width: 18px; height: 18px; fill: currentColor; }
 @media (max-width: 560px) { .gh-link span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
 .masthead h1 {
@@ -126,7 +128,7 @@ a { color: inherit; text-underline-offset: 2px; }
 
 /* ---------- layout ---------- */
 .layout {
-  flex: 0 0 auto;
+  flex: 1 0 auto;
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
@@ -790,12 +792,10 @@ details > summary::-webkit-details-marker { display: none; }
   .details-fields { grid-template-columns: 1fr; }
 }
 
-/* ---------- common questions (generated from data/faq.json) ---------- */
-.faq { flex: 1 0 auto; width: 100%; padding-top: 56px; padding-bottom: 48px; }
-.faq h2 { font: 700 var(--step-1)/1.3 var(--font-display); margin-bottom: 12px; }
-.faq-list { border-top: 1px solid var(--rule); }
-/* Same width as the calculator column above (300px result panel + 40px gap). */
-@media (min-width: 861px) { .faq-list, .faq h2 { margin-right: 340px; } }
+/* ---------- FAQ page (faq.html, generated from data/faq.json) ---------- */
+.faq { flex: 1 0 auto; width: 100%; padding-top: 8px; padding-bottom: 48px; }
+.faq-list { max-width: 760px; border-top: 1px solid var(--rule); }
+.faq-cta { margin-top: 28px; }
 .faq-item { border-bottom: 1px solid var(--rule); }
 .faq .faq-item > summary {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;

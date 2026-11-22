@@ -1,5 +1,5 @@
 {
-  "_readme": "Edit the questions here, then run: npm run faq (rewrites the FAQ section and its Google data in index.html).",
+  "_readme": "Edit the questions here, then run: npm run faq (rewrites the questions and their Google data in faq.html).",
   "questions": [
     {
       "q": "How do I convert my TU percentage to a US GPA?",

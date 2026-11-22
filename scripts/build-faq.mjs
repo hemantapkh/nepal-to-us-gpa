@@ -1,4 +1,4 @@
-// Writes the FAQ from data/faq.json into index.html: the visible section and
+// Writes the FAQ from data/faq.json into faq.html: the visible list and
 // the FAQPage structured data for Google. Run: npm run faq
 import { readFileSync, writeFileSync } from 'node:fs';
 
@@ -26,7 +26,7 @@ export function applyFaq(html, questions) {
   const { items, jsonld } = renderFaq(questions);
   const swap = (src, name, body) => {
     const re = new RegExp(`(<!-- ${name}:start -->)[\\s\\S]*?(\\s*<!-- ${name}:end -->)`);
-    if (!re.test(src)) throw new Error(`index.html is missing the ${name} markers`);
+    if (!re.test(src)) throw new Error(`faq.html is missing the ${name} markers`);
     return src.replace(re, (_, a, b) => `${a}\n${body}${b}`);
   };
   html = swap(html, 'faq-data', `  <script type="application/ld+json">\n${jsonld}\n  </script>`);
@@ -35,7 +35,7 @@ export function applyFaq(html, questions) {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const { questions } = JSON.parse(readFileSync(new URL('data/faq.json', root), 'utf8'));
-  const file = new URL('index.html', root);
+  const file = new URL('faq.html', root);
   writeFileSync(file, applyFaq(readFileSync(file, 'utf8'), questions));
   console.log(`FAQ updated: ${questions.length} questions`);
 }
