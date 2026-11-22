@@ -331,10 +331,15 @@ function renderReportDetails() {
 
 // The single line of links at the foot of the PDF.
 function renderPrintLinks() {
-  const bare = (u) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  // Full https:// addresses as real links, so they are clickable in the saved PDF.
+  const full = (u) => u.replace(/\/$/, '');
   const site = SITE_URL || `${location.origin}${location.pathname}`;
   const repo = 'https://github.com/hemantapkh/nepal-to-us-gpa';
-  $('print-links').replaceChildren(el('span', { text: bare(site) }), el('span', { text: bare(repo) }));
+  const link = (u) => el('a', { href: full(u), text: full(u) });
+  $('print-links').replaceChildren(
+    el('span', {}, 'Generated with ', link(site)),
+    el('span', {}, 'Source code: ', link(repo)),
+  );
 }
 
 // ---------- overall percentage ----------

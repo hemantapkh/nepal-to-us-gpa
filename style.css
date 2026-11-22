@@ -744,7 +744,7 @@ details > summary::-webkit-details-marker { display: none; }
 
   .site-footer { border-top: 0.5pt solid var(--rule); margin-top: 14px; padding: 6px 0 0; font-size: 8pt; }
   .site-footer .wrap { padding: 0; max-width: none; }
-  .site-footer a { text-decoration: none; }
+  .site-footer a { text-decoration: none; color: var(--violet); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .footer-inner { display: block; }
   .footer-links, .screen-only { display: none; }
   .print-only { display: inline; }
