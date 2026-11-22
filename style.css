@@ -702,7 +702,10 @@ details > summary::-webkit-details-marker { display: none; }
   body { background: #fff; color: var(--ink); font-size: 9.5pt; line-height: 1.35; }
   .skip, .masthead, .layout, .paste-dialog { display: none !important; }
 
-  .report { display: block; }
+  /* The report fills the page so the disclaimer sits at the bottom even with one
+     course. Longer reports flow onto more pages and the footer follows them. */
+  body { min-height: 100vh; }
+  .report { display: block; flex: 1 0 auto; }
   .report-head {
     display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
     border-bottom: 1px solid var(--rule);
