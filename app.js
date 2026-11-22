@@ -155,6 +155,7 @@ function renderRows() {
           el('span', { 'aria-hidden': 'true', text: '×' }))),
     );
   }));
+  $('mark-help').hidden = s.type !== 'percentage';
   $('empty-state').hidden = state.rows.length > 0;
   $('ledger-table').classList.toggle('is-empty', state.rows.length === 0);
   updateResults();
