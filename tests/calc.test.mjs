@@ -146,3 +146,19 @@ test('faq.html matches data/faq.json (run npm run faq after editing)', async () 
   assert.ok(questions.length > 0 && questions.every((x) => x.q && x.a));
   assert.equal(applyFaq(html, questions), html);
 });
+
+test('marks out of more than 100 can be typed as marks/full marks', () => {
+  const r = resolveMark(tu40, '187/200');
+  assert.equal(r.mark, 93.5);
+  assert.equal(r.row.usGrade, 'A+');
+  assert.equal(resolveMark(tu40, ' 150 / 200 ').mark, 75);
+  assert.match(resolveMark(tu40, '187').error, /187\/200/);
+  assert.ok(resolveMark(tu40, '210/200').error);
+  assert.ok(resolveMark(tu40, '5/0').error);
+  // A 6-credit course out of 200 counts the same as entering its percentage.
+  const a = computeGpa(tu40, [{ credits: 3, mark: '60' }, { credits: 6, mark: '187/200' }], P40);
+  const b = computeGpa(tu40, [{ credits: 3, mark: '60' }, { credits: 6, mark: '93.5' }], P40);
+  assert.equal(a.gpaText, b.gpaText);
+  // Not on points scales (IB 0-7).
+  assert.ok(resolveMark(scale('ib-diploma'), '6/7').error);
+});

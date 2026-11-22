@@ -10,6 +10,10 @@
       "a": "Choose the scale that matches the grading table on your transcript. For Tribhuvan University BSc CSIT, the transcript lists First Division as 70% and above, which is the “Tribhuvan University Undergraduate (Pass at 40)” scale."
     },
     {
+      "q": "What if a course is out of 200, like the internship?",
+      "a": "Type the mark as marks/full marks, for example 187/200, and it is converted to a percentage (93.5%). Enter the course’s credit hours as printed on your transcript, such as 6 for the BSc CSIT internship."
+    },
+    {
       "q": "Should I enter each course or just my overall percentage?",
       "a": "Enter each course if you can. US schools weigh every course by its credits, so a course-by-course GPA is closer to what an evaluator calculates. The overall percentage gives a quick estimate only."
     },

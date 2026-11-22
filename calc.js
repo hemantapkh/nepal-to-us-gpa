@@ -69,11 +69,26 @@ export function resolveMark(scale, raw) {
   const labelRow = findLetterRow(letterRows(scale), text);
   if (labelRow) return { row: labelRow };
 
+  // Percentage scales also accept "marks/full marks", e.g. 187/200 for a 200-mark course.
+  const NUM = '(\\d+\\.?\\d*|\\.\\d+)';
+  const frac = scale.type === 'percentage' && text.match(new RegExp(`^${NUM}\\s*/\\s*${NUM}$`));
+  if (frac) {
+    const [got, full] = [Number(frac[1]), Number(frac[2])];
+    if (!(full > 0)) return { error: 'Full marks must be more than 0' };
+    if (got > full) return { error: 'Marks can’t be more than the full marks' };
+    const pct = Math.round((got / full) * 10000) / 100;
+    const row = findRow(scale, pct);
+    return row ? { row, mark: pct } : { error: 'No mapping for this mark on this scale', noMapping: true };
+  }
+
   const mark = Number(text);
   if (!Number.isFinite(mark) || !/^[+-]?(\d+\.?\d*|\.\d+)$/.test(text)) {
     return { error: 'Mark must be a number' };
   }
   const max = scaleMax(scale);
+  if (scale.type === 'percentage' && mark > 100) {
+    return { error: 'Out of more than 100? Enter marks/full marks, e.g. 187/200' };
+  }
   if (mark < 0 || mark > max) return { error: `Mark must be between 0 and ${max}` };
   const row = findRow(scale, mark);
   return row ? { row, mark } : { error: 'No mapping for this mark on this scale', noMapping: true };

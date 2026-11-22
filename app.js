@@ -125,7 +125,8 @@ function markControl(s, row, label, describedBy) {
     return select;
   }
   return el('input', {
-    type: 'text', inputmode: 'decimal', autocomplete: 'off', value: row.mark, class: 'num',
+    // Percentage marks can be typed as 187/200, so they get a keyboard with "/".
+    type: 'text', inputmode: s.type === 'percentage' ? 'text' : 'decimal', autocomplete: 'off', value: row.mark, class: 'num',
     'aria-label': label, 'data-field': 'mark', 'aria-describedby': describedBy,
     placeholder: s.type === 'points' ? `0–${scaleMax(s)}` : '0–100',
   });
@@ -204,7 +205,7 @@ function updateResults() {
   const parts = [];
   if (c.excluded) parts.push(`${plural(c.excluded, 'course')} marked pass or incomplete`);
   if (c.nomap) parts.push(`${plural(c.nomap, 'mark')} with no band on this scale`);
-  if (c.invalid) parts.push(`${plural(c.invalid, 'row')} still missing credits or a mark`);
+  if (c.invalid) parts.push(`${plural(c.invalid, 'row')} with missing or invalid credits or mark`);
   $('uncounted').textContent = parts.length ? `Not counted: ${parts.join('; ')}.` : '';
 
   renderReport(s, result);
