@@ -1,0 +1,29 @@
+{
+  "_readme": "Edit the questions here, then run: npm run faq (rewrites the FAQ section and its Google data in index.html).",
+  "questions": [
+    {
+      "q": "How do I convert my TU percentage to a US GPA?",
+      "a": "Enter each course with its credits and mark, and pick the grading scale printed on your transcript. Each course is converted to a US letter grade, then averaged by credits to give a GPA on the 4.0 or 4.3 scale."
+    },
+    {
+      "q": "Which grading scale should I choose for BSc CSIT?",
+      "a": "Choose the scale that matches the grading table on your transcript. For Tribhuvan University BSc CSIT, the transcript lists First Division as 70% and above, which is the “Tribhuvan University Undergraduate (Pass at 40)” scale."
+    },
+    {
+      "q": "Should I enter each course or just my overall percentage?",
+      "a": "Enter each course if you can. US schools weigh every course by its credits, so a course-by-course GPA is closer to what an evaluator calculates. The overall percentage gives a quick estimate only."
+    },
+    {
+      "q": "What is the difference between the 4.0 and 4.3 scales?",
+      "a": "Most US application forms use the 4.0 scale, where A+ and A are both worth 4.0. Some schools use 4.3, where A+ is worth 4.3. Use the scale the application form asks for."
+    },
+    {
+      "q": "Is this GPA accepted by US universities?",
+      "a": "It is an unofficial estimate for application forms that ask you to self-report a GPA. Universities that require an official evaluation, such as WES, calculate their own GPA, which may differ."
+    },
+    {
+      "q": "Is my data stored anywhere?",
+      "a": "No. Everything runs in your browser and is saved only on your device."
+    }
+  ]
+}

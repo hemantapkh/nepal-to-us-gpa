@@ -138,3 +138,11 @@ test('spreadsheet export has a BOM, grade columns, and imports back', async () =
   assert.equal(csv.split('\r\n')[2], 'Maths,3,62,B,3.0');
   assert.deepEqual(parseCsv(csv), rows);
 });
+
+test('index.html FAQ matches data/faq.json (run npm run faq after editing)', async () => {
+  const { applyFaq } = await import('../scripts/build-faq.mjs');
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const { questions } = JSON.parse(readFileSync(new URL('../data/faq.json', import.meta.url), 'utf8'));
+  assert.ok(questions.length > 0 && questions.every((x) => x.q && x.a));
+  assert.equal(applyFaq(html, questions), html);
+});

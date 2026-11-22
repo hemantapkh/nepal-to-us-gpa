@@ -4,9 +4,10 @@
   "repository": "https://github.com/hemantapkh/nepal-to-us-gpa",
   "private": true,
   "type": "module",
-  "description": "Static Nepal to US GPA converter (no build step).",
+  "description": "Static Nepal to US GPA converter (no build step; npm run faq after editing data/faq.json).",
   "scripts": {
     "test": "node tests/calc.test.mjs",
-    "start": "python3 -m http.server 8000"
+    "start": "python3 -m http.server 8000",
+    "faq": "node scripts/build-faq.mjs"
   }
 }
