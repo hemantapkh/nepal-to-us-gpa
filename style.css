@@ -97,6 +97,23 @@ a { color: inherit; text-underline-offset: 2px; }
 
 /* ---------- masthead ---------- */
 .masthead { padding: 32px 0 24px; }
+.masthead-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.gh-link {
+  flex: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+  text-decoration: none;
+}
+.gh-link:hover { border-color: var(--ink); }
+.gh-link svg { width: 18px; height: 18px; fill: currentColor; }
+@media (max-width: 560px) { .gh-link span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
 .masthead h1 {
   font: 800 var(--step-3)/1.1 var(--font-display);
   letter-spacing: -0.01em;
@@ -117,10 +134,15 @@ a { color: inherit; text-underline-offset: 2px; }
   align-items: start;
   align-content: start; /* extra height goes below the content, not between rows */
   padding-bottom: 48px;
+  /* Always at least one screen tall, so the footer sits below the fold and
+     appears only when scrolling, whichever mode or how many courses. */
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 .setup { grid-column: 1; grid-row: 1; display: grid; gap: 20px; }
 .sheet { grid-column: 1; grid-row: 2; }
-.result { grid-column: 2; grid-row: 2; align-self: start; }
+/* The result starts level with the controls, using the space beside them. */
+.result { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
 
 .error-box {
   border-left: 3px solid var(--error);
@@ -502,9 +524,12 @@ details > summary::-webkit-details-marker { display: none; }
 
 .details-form { margin-top: 14px; border-top: 1px solid var(--rule-faint); padding-top: 6px; }
 .details-form > .help { margin: 2px 0 10px; }
-.details-form .fields { display: grid; gap: 10px; }
-.details-form label { display: grid; gap: 3px; font-size: var(--step--1); font-weight: 600; }
+.details-form .fields { display: grid; gap: 10px; min-width: 0; }
+.details-form label { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; font-size: var(--step--1); font-weight: 600; min-width: 0; }
 .details-form input {
+  display: block;
+  width: 100%;
+  min-width: 0;
   min-height: 40px;
   padding: 6px 10px;
   background: var(--surface);
