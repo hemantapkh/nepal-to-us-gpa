@@ -162,3 +162,12 @@ test('marks out of more than 100 can be typed as marks/full marks', () => {
   // Not on points scales (IB 0-7).
   assert.ok(resolveMark(scale('ib-diploma'), '6/7').error);
 });
+
+test('marks/full marks are exported and imported exactly as typed', async () => {
+  const { toSpreadsheetCsv } = await import('../calc.js');
+  const rows = [{ name: 'Internship', credits: '6', mark: '194/200' }, { name: 'Lab', credits: '1', mark: '12/20' }, { name: 'Maths', credits: '3', mark: '62' }];
+  const csv = toSpreadsheetCsv(rows, computeGpa(tu40, rows, P40).results);
+  assert.equal(csv.split('\r\n')[1], 'Internship,6,"=""194/200""",A+,4.0');
+  assert.equal(csv.split('\r\n')[3], 'Maths,3,62,B,3.0');
+  assert.deepEqual(parseCsv(csv), rows);
+});

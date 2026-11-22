@@ -178,7 +178,7 @@ export function parseCsv(text) {
   const lines = String(text).replace(/^﻿/, '').split(/\r?\n/).filter((l) => l.trim() !== '');
   const rows = lines.map(parseCsvLine);
   if (rows.length && /^credits?$/i.test(rows[0][1] || '')) rows.shift();
-  return rows.map(([name = '', credits = '', mark = '']) => ({ name, credits, mark }));
+  return rows.map(([name = '', credits = '', mark = '']) => ({ name, credits, mark: unwrapExcelText(mark) }));
 }
 
 function csvField(value) {
@@ -251,12 +251,20 @@ export function detailLines(details) {
  * US grade and grade points. Starts with a UTF-8 byte-order mark so Excel opens
  * names in Devanagari or with accents correctly.
  */
+// Marks typed as marks/full marks (e.g. 194/200) are exported as typed. Excel would read
+// some of them (12/20, 9/10) as dates, so they are written as ="12/20", which Excel and
+// Google Sheets show as plain text; parseCsv strips the wrapper again on import.
+const FRACTION = /^\s*\d+(\.\d+)?\s*\/\s*\d+(\.\d+)?\s*$/;
+const excelText = (s) => `"=""${s}"""`;
+const unwrapExcelText = (s) => s.replace(/^="(.*)"$/, '$1');
+
 export function toSpreadsheetCsv(courses, results) {
   const lines = ['course,credits,mark,us_grade,grade_points'];
   courses.forEach((c, i) => {
     const r = results[i] || {};
     const pts = r.status === 'ok' ? r.gradePoints.toFixed(1) : r.status === 'excluded' ? 'not counted' : '';
-    lines.push([c.name, c.credits, c.mark, r.usGrade ?? '', pts].map(csvField).join(','));
+    const mark = FRACTION.test(c.mark) ? excelText(c.mark.trim()) : csvField(c.mark);
+    lines.push([csvField(c.name), csvField(c.credits), mark, csvField(r.usGrade ?? ''), csvField(pts)].join(','));
   });
   return '﻿' + lines.join('\r\n') + '\r\n';
 }
