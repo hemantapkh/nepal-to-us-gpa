@@ -42,6 +42,14 @@ function saveDetails() {
   try { localStorage.setItem(DETAILS_KEY, JSON.stringify(state.details)); } catch { /* ignore */ }
 }
 
+// The button names what it will do: add details, or edit the ones already there.
+function updateDetailsButton() {
+  const filled = Object.values(state.details || {}).some((v) => String(v ?? '').trim());
+  document.getElementById('open-details').textContent = filled
+    ? 'Edit your details on the PDF'
+    : 'Add your name and degree to the PDF';
+}
+
 // ---------- helpers ----------
 const scale = () => state.data.scales.find((s) => s.id === state.scaleId);
 const points = () => state.data.gpaPoints[state.points];
@@ -534,7 +542,13 @@ function bind() {
   bands.addEventListener('click', (e) => { if (e.target === bands) bands.close(); }); // backdrop
   bands.addEventListener('close', () => $('open-bands').focus());
 
-  // Optional student details, printed on the PDF only.
+  // Optional student details, printed on the PDF only, edited in a dialog.
+  const detailsDlg = $('details-dialog');
+  $('open-details').addEventListener('click', () => detailsDlg.showModal());
+  $('close-details').addEventListener('click', () => detailsDlg.close());
+  detailsDlg.addEventListener('click', (e) => { if (e.target === detailsDlg) detailsDlg.close(); });
+  detailsDlg.addEventListener('close', () => { updateDetailsButton(); $('open-details').focus(); });
+  updateDetailsButton();
   document.querySelectorAll('[data-detail]').forEach((input) => {
     input.value = state.details[input.dataset.detail] ?? '';
     input.addEventListener('input', () => {
