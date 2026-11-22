@@ -212,6 +212,14 @@ function updateResults() {
 }
 
 // ---------- result panel: shows whichever mode is active ----------
+// Hide one of the two stacked results. On desktop CSS keeps it in the layout
+// (invisible) so the panel height, and everything below it, stays put.
+function setOff(el, off) {
+  el.classList.toggle('is-off', off);
+  el.inert = off;
+  el.setAttribute('aria-hidden', String(off));
+}
+
 function paintResult() {
   const percent = state.mode === 'percent';
   let text = null;
@@ -239,10 +247,8 @@ function paintResult() {
   $('bar-label').textContent = percent ? 'Estimated points' : 'Estimated GPA';
   $('bar-gpa').textContent = text ?? '–';
   $('bar-credits').textContent = barNote;
-  $('percent-summary').hidden = !percent;
-  $('course-totals').hidden = percent;
-  $('pdf-area').hidden = percent;
-  $('pdf-off').hidden = !percent;
+  setOff($('course-result'), percent);
+  setOff($('percent-result'), !percent);
 
   const key = text && `${state.mode}:${text}`;
   if (key && key !== lastStampText) press();

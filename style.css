@@ -143,6 +143,12 @@ a { color: inherit; text-underline-offset: 2px; }
 .sheet { grid-column: 1; grid-row: 2; }
 /* The result starts level with the controls, using the space beside them. */
 .result { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+.mode-stack > .is-off { display: none; }
+@media (min-width: 861px) {
+  .mode-stack { display: grid; }
+  .mode-stack > * { grid-area: 1 / 1; align-self: start; min-width: 0; }
+  .mode-stack > .is-off { display: block; visibility: hidden; }
+}
 
 .error-box {
   border-left: 3px solid var(--error);

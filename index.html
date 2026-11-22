@@ -233,32 +233,38 @@
         </div>
         <p class="sr-only" id="gpa-live" aria-live="polite"></p>
 
-        <p class="percent-summary" id="percent-summary" hidden></p>
+        <!-- Both results share one spot on desktop so the panel keeps its height when the mode changes. -->
+        <div class="mode-stack">
+          <div id="course-result">
+            <div id="course-totals">
+              <dl class="totals">
+                <div><dt>Credits counted</dt><dd id="total-credits">0</dd></div>
+                <div><dt>Courses counted</dt><dd id="total-courses">0</dd></div>
+              </dl>
 
-        <div id="course-totals">
-          <dl class="totals">
-            <div><dt>Credits counted</dt><dd id="total-credits">0</dd></div>
-            <div><dt>Courses counted</dt><dd id="total-courses">0</dd></div>
-          </dl>
+              <table class="breakdown" id="breakdown">
+                <caption>Credits by US grade</caption>
+                <thead><tr><th scope="col">Grade</th><th scope="col">Credits</th></tr></thead>
+                <tbody></tbody>
+              </table>
+              <p class="help uncounted" id="uncounted"></p>
+            </div>
 
-          <table class="breakdown" id="breakdown">
-            <caption>Credits by US grade</caption>
-            <thead><tr><th scope="col">Grade</th><th scope="col">Credits</th></tr></thead>
-            <tbody></tbody>
-          </table>
-          <p class="help uncounted" id="uncounted"></p>
-        </div>
+            <div class="pdf-area" id="pdf-area">
+              <div class="export-actions">
+                <button type="button" class="btn btn-primary" id="download-pdf">Download PDF</button>
+                <button type="button" class="btn" id="csv-export" title="CSV file that opens in Excel">Excel (.csv)</button>
+              </div>
+              <p class="help pdf-help">Download your result. For the PDF, choose “Save as PDF” in the print dialog.</p>
 
-        <div class="pdf-area" id="pdf-area">
-          <div class="export-actions">
-            <button type="button" class="btn btn-primary" id="download-pdf">Download PDF</button>
-            <button type="button" class="btn" id="csv-export" title="CSV file that opens in Excel">Excel (.csv)</button>
+              <button type="button" class="text-btn details-btn" id="open-details" aria-haspopup="dialog">Add your name and degree to the PDF</button>
+            </div>
           </div>
-          <p class="help pdf-help">Download your result. For the PDF, choose “Save as PDF” in the print dialog.</p>
-
-          <button type="button" class="text-btn details-btn" id="open-details" aria-haspopup="dialog">Add your name and degree to the PDF</button>
+          <div id="percent-result" class="is-off">
+            <p class="percent-summary" id="percent-summary"></p>
+            <p class="help pdf-off" id="pdf-off">The PDF lists your courses, so it’s available in By course mode.</p>
+          </div>
         </div>
-        <p class="help pdf-off" id="pdf-off" hidden>The PDF lists your courses, so it’s available in By course mode.</p>
       </div>
     </aside>
   </main>
