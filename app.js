@@ -55,6 +55,9 @@ const scale = () => state.data.scales.find((s) => s.id === state.scaleId);
 const points = () => state.data.gpaPoints[state.points];
 const newRow = (r = {}) => ({ id: nextId++, name: String(r.name ?? ''), credits: String(r.credits ?? ''), mark: String(r.mark ?? '') });
 const isBlank = (r) => !r.name.trim() && !r.credits.trim() && !r.mark.trim();
+const STARTER_ROWS = 3; // empty rows ready to type into on a fresh page
+const filledRows = () => state.rows.filter((r) => !isBlank(r));
+const starterRows = () => Array.from({ length: STARTER_ROWS }, () => newRow());
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const num = (n) => String(Math.round(n * 100) / 100);
 const isCounted = (usGrade) => Object.prototype.hasOwnProperty.call(points(), usGrade);
@@ -419,13 +422,24 @@ function addRow(focus = true) {
   if (focus) focusField(state.rows.length - 1, 'name');
 }
 
-function addRows(rows) {
-  const keep = state.rows.filter((r) => !isBlank(r));
-  state.rows = [...keep, ...rows.map(newRow)];
+function addRows(rows, replace = false) {
+  state.rows = [...(replace ? [] : filledRows()), ...rows.map(newRow)];
   markTouched(state.rows);
   renderRows();
   save();
 }
+
+// ---------- replace or add (asked only when there are courses already) ----------
+function setupChoice(prefix) {
+  const n = filledRows().length;
+  $(`${prefix}-choice`).hidden = n === 0;
+  $(`${prefix}-legend`).textContent = `You already have ${plural(n, 'course')}`;
+  document.querySelector(`input[name="${prefix}-how"][value="replace"]`).checked = true;
+}
+const choosesReplace = (prefix) => filledRows().length === 0
+  || document.querySelector(`input[name="${prefix}-how"]:checked`).value === 'replace';
+const actionLabel = (prefix, n) => (filledRows().length && choosesReplace(prefix)
+  ? `Replace with ${plural(n, 'course')}` : `Add ${plural(n, 'course')}`);
 
 // ---------- paste dialog ----------
 function updatePastePreview() {
@@ -435,7 +449,7 @@ function updatePastePreview() {
   const bad = result.counts.invalid + result.counts.nomap;
   const btn = $('paste-add');
   btn.disabled = rows.length === 0;
-  btn.textContent = rows.length ? `Add ${plural(rows.length, 'course')}` : 'Add courses';
+  btn.textContent = rows.length ? actionLabel('paste', rows.length) : 'Add courses';
   $('paste-count').textContent = rows.length === 0
     ? ($('paste-text').value.trim() ? 'No courses found. Each line needs credits and a mark.' : 'Nothing pasted yet.')
     : `Found ${plural(rows.length, 'course')}.${bad ? ` ${bad === 1 ? '1 row needs' : `${bad} rows need`} a fix after adding.` : ''}`;
@@ -503,16 +517,19 @@ function bind() {
   const dialog = $('paste-dialog');
   $('open-paste').addEventListener('click', () => {
     $('paste-text').value = '';
+    setupChoice('paste');
     updatePastePreview();
     dialog.showModal();
   });
   $('paste-text').addEventListener('input', updatePastePreview);
+  $('paste-choice').addEventListener('change', updatePastePreview);
   dialog.addEventListener('close', () => {
     if (dialog.returnValue !== 'add') return;
     const pasted = parsePasted($('paste-text').value);
     if (!pasted.length) return;
-    addRows(pasted);
-    setStatus(`Added ${plural(pasted.length, 'course')}.`);
+    const replace = choosesReplace('paste');
+    addRows(pasted, replace);
+    setStatus(`${replace ? 'Replaced with' : 'Added'} ${plural(pasted.length, 'course')}.`);
     $('open-paste').focus();
   });
 
@@ -527,18 +544,40 @@ function bind() {
     try {
       const imported = parseCsv(await file.text());
       if (!imported.length) setStatus('No courses found in that file.');
-      else { addRows(imported); setStatus(`Imported ${plural(imported.length, 'course')}.`); }
+      else if (!filledRows().length) importRows(imported, true);
+      else {
+        pendingImport = imported;
+        setupChoice('import');
+        $('import-count').textContent = `Found ${plural(imported.length, 'course')} in ${file.name}.`;
+        updateImportButton();
+        importDialog.showModal();
+      }
     } catch { setStatus('Could not read that file.'); }
     e.target.value = '';
   });
+  const importDialog = $('import-dialog');
+  let pendingImport = null;
+  const updateImportButton = () => { $('import-go').textContent = actionLabel('import', pendingImport.length); };
+  const importRows = (rows, replace) => {
+    const hadCourses = filledRows().length > 0;
+    addRows(rows, replace);
+    setStatus(`${hadCourses && replace ? 'Replaced with' : 'Imported'} ${plural(rows.length, 'course')}.`);
+  };
+  $('import-choice').addEventListener('change', updateImportButton);
+  importDialog.addEventListener('close', () => {
+    if (importDialog.returnValue === 'import' && pendingImport) importRows(pendingImport, choosesReplace('import'));
+    pendingImport = null;
+    $('more-menu').querySelector('summary').focus();
+  });
   $('clear-rows').addEventListener('click', () => {
     menu.open = false;
-    if (!state.rows.length || !confirm(`Remove all ${plural(state.rows.length, 'course')}? This can’t be undone.`)) return;
-    state.rows = [];
+    const n = filledRows().length;
+    if (!n || !confirm(`Remove all ${plural(n, 'course')}? This can’t be undone.`)) return;
+    state.rows = starterRows();
     renderRows();
     save();
     setStatus('All courses removed.');
-    $('add-row').focus();
+    focusField(0, 'name');
   });
 
   $('quick-mark').addEventListener('input', (e) => { state.quick = e.target.value; updateQuick(); save(); });
@@ -626,6 +665,7 @@ async function init() {
   const source = state.demo ? DEMO : Array.isArray(saved?.rows) ? saved.rows : [];
   state.rows = source.map(newRow).filter((r) => !isBlank(r));
   markTouched(state.rows);
+  if (!state.rows.length) state.rows = starterRows();
   document.querySelector(`input[name="points"][value="${state.points}"]`).checked = true;
 
   renderScaleOptions();

@@ -284,8 +284,29 @@
       <label for="paste-text" class="sr-only">Rows to paste</label>
       <textarea id="paste-text" rows="8" spellcheck="false" aria-describedby="paste-help paste-count" placeholder="Calculus I&#9;3&#9;78&#10;Physics Lab&#9;1.5&#9;85"></textarea>
       <p class="paste-count" id="paste-count" aria-live="polite">Nothing pasted yet.</p>
+      <fieldset class="import-choice" id="paste-choice" hidden>
+        <legend id="paste-legend">You already have courses</legend>
+        <label><input type="radio" name="paste-how" value="replace" checked> Replace them</label>
+        <label><input type="radio" name="paste-how" value="add"> Add to them</label>
+      </fieldset>
       <div class="dialog-actions">
         <button type="submit" value="add" class="btn btn-primary" id="paste-add" disabled>Add courses</button>
+        <button type="submit" value="cancel" class="btn btn-quiet" formnovalidate>Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="paste-dialog" id="import-dialog" aria-labelledby="import-title">
+    <form method="dialog">
+      <h2 id="import-title">Import CSV</h2>
+      <p class="paste-count" id="import-count"></p>
+      <fieldset class="import-choice" id="import-choice" hidden>
+        <legend id="import-legend">You already have courses</legend>
+        <label><input type="radio" name="import-how" value="replace" checked> Replace them</label>
+        <label><input type="radio" name="import-how" value="add"> Add to them</label>
+      </fieldset>
+      <div class="dialog-actions">
+        <button type="submit" value="import" class="btn btn-primary" id="import-go">Replace courses</button>
         <button type="submit" value="cancel" class="btn btn-quiet" formnovalidate>Cancel</button>
       </div>
     </form>

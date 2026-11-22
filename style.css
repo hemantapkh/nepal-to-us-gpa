@@ -590,6 +590,10 @@ details > summary::-webkit-details-marker { display: none; }
   resize: vertical;
 }
 .paste-count { margin-top: 8px; font-size: var(--step--1); font-weight: 600; }
+.import-choice { border: 0; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.import-choice legend { width: 100%; padding: 0; margin-bottom: 6px; font-size: var(--step--1); color: var(--ink-soft); }
+.import-choice label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.import-choice input { accent-color: var(--violet); width: 18px; height: 18px; margin: 0; }
 .dialog-actions { display: flex; gap: 8px; margin-top: 16px; }
 
 .bands-dialog { width: min(640px, calc(100vw - 2 * var(--gutter))); }
