@@ -1,0 +1,12 @@
+{
+  "name": "nepal-to-us-gpa",
+  "homepage": "https://gpa.hemantapkh.com",
+  "repository": "https://github.com/hemantapkh/nepal-to-us-gpa",
+  "private": true,
+  "type": "module",
+  "description": "Static Nepal to US GPA converter (no build step).",
+  "scripts": {
+    "test": "node tests/calc.test.mjs",
+    "start": "python3 -m http.server 8000"
+  }
+}

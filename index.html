@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nepal to US GPA</title>
+  <meta name="description" content="Convert a Tribhuvan University or other Nepal mark sheet into an estimated US GPA, course by course, and save it as a PDF.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel:wght@700;800&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the courses</a>
+
+  <header class="masthead">
+    <div class="wrap">
+      <h1>Nepal to US GPA</h1>
+      <p>Enter the courses from your mark sheet and get the credit-weighted US GPA that grad applications ask for.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap layout">
+    <div class="setup">
+      <noscript><p class="error-box">This converter needs JavaScript turned on.</p></noscript>
+      <p id="load-error" class="error-box" role="alert" hidden></p>
+
+      <fieldset class="segmented mode-switch">
+        <legend>Enter marks</legend>
+        <label><input type="radio" name="mode" value="courses" checked><span>By course</span></label>
+        <label><input type="radio" name="mode" value="percent"><span>Overall percentage</span></label>
+      </fieldset>
+
+      <div class="scale-picker">
+        <label for="scale-select" class="label">Grading scale</label>
+        <select id="scale-select" aria-describedby="scale-help"></select>
+        <p id="scale-help" class="help">Pick the scale that matches the grading table on your transcript.</p>
+        <p id="scale-note" class="help scale-note" hidden></p>
+        <button type="button" class="text-btn" id="open-bands" aria-haspopup="dialog">See how marks map to US grades</button>
+      </div>
+    </div>
+
+    <section class="sheet" id="course-panel" aria-labelledby="ledger-title">
+      <div class="ledger">
+        <h2 id="ledger-title" class="sr-only">Courses</h2>
+        <table class="ledger-table" id="ledger-table">
+          <thead>
+            <tr>
+              <th scope="col" class="c-name">Course</th>
+              <th scope="col" class="c-credits">Credits</th>
+              <th scope="col" class="c-mark" id="mark-head">Mark %</th>
+              <th scope="col" class="c-us">US grade</th>
+              <th scope="col" class="c-pts">Points</th>
+              <th scope="col" class="c-del"><span class="sr-only">Remove</span></th>
+            </tr>
+          </thead>
+          <tbody id="course-rows"></tbody>
+        </table>
+        <p class="empty" id="empty-state">Add your first course, or paste rows from a spreadsheet.</p>
+
+        <div class="ledger-actions">
+          <button type="button" class="btn btn-primary" id="add-row">Add course</button>
+          <button type="button" class="btn" id="open-paste">Paste from spreadsheet</button>
+          <details class="menu" id="more-menu">
+            <summary class="btn btn-quiet">More</summary>
+            <div class="menu-list">
+              <label class="menu-file">Import CSV<input type="file" id="csv-file" accept=".csv,text/csv,text/plain"></label>
+              <button type="button" id="clear-rows" class="danger">Clear all courses</button>
+            </div>
+          </details>
+        </div>
+        <p class="help status" id="status" role="status"></p>
+      </div>
+    </section>
+
+    <section class="sheet percent-panel" id="percent-panel" aria-labelledby="percent-title" hidden>
+      <h2 id="percent-title" class="sr-only">Overall percentage</h2>
+      <div class="percent-card">
+        <label for="quick-mark" class="label" id="quick-label">Your overall percentage</label>
+        <input id="quick-mark" class="field-lg" type="text" inputmode="decimal" autocomplete="off" aria-describedby="quick-note">
+        <p id="quick-error" class="field-error" aria-live="polite"></p>
+        <dl class="quick-result" id="quick-result" aria-live="polite">
+          <div><dt>Description</dt><dd id="quick-desc">–</dd></div>
+          <div><dt>US grade</dt><dd id="quick-grade">–</dd></div>
+          <div><dt>Points</dt><dd id="quick-points">–</dd></div>
+        </dl>
+      </div>
+      <p id="quick-note" class="help">Course by course is more accurate, because schools weigh each course by its credits.</p>
+    </section>
+
+    <aside class="result" id="result" aria-labelledby="result-title">
+      <button type="button" class="result-bar" id="result-bar" aria-expanded="false" aria-controls="result-body">
+        <span class="bar-label" id="bar-label">Estimated GPA</span>
+        <span class="bar-gpa" id="bar-gpa">–</span>
+        <span class="bar-credits" id="bar-credits">0 credits</span>
+        <span class="bar-toggle" id="bar-toggle">Details</span>
+      </button>
+
+      <div class="result-body" id="result-body">
+        <h2 id="result-title" class="sr-only">Result</h2>
+        <fieldset class="segmented">
+          <legend>US scale</legend>
+          <label><input type="radio" name="points" value="4.0" checked><span>4.0</span></label>
+          <label title="A+ counts as 4.3"><input type="radio" name="points" value="4.3"><span>4.3</span></label>
+        </fieldset>
+
+        <div class="stamp-wrap" id="stamp-wrap">
+          <svg class="stamp" id="stamp" viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <path id="arc-top" d="M 34 100 A 66 66 0 0 1 166 100"/>
+              <path id="arc-bottom" d="M 23 100 A 77 77 0 0 0 177 100"/>
+              <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/>
+              </filter>
+            </defs>
+            <g filter="url(#ink)">
+              <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="3.5"/>
+              <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="1"/>
+              <circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" stroke-width="1.25"/>
+              <circle cx="24" cy="104" r="2.2" fill="currentColor"/>
+              <circle cx="176" cy="104" r="2.2" fill="currentColor"/>
+              <text class="stamp-arc"><textPath href="#arc-top" startOffset="50%" text-anchor="middle" id="stamp-title">Estimated US GPA</textPath></text>
+              <text class="stamp-arc"><textPath href="#arc-bottom" startOffset="50%" text-anchor="middle" id="stamp-scale">4.0 scale</textPath></text>
+              <text class="stamp-num" x="100" y="114" text-anchor="middle" id="stamp-gpa">–</text>
+            </g>
+          </svg>
+        </div>
+        <p class="sr-only" id="gpa-live" aria-live="polite"></p>
+
+        <p class="percent-summary" id="percent-summary" hidden></p>
+
+        <div id="course-totals">
+          <dl class="totals">
+            <div><dt>Credits counted</dt><dd id="total-credits">0</dd></div>
+            <div><dt>Courses counted</dt><dd id="total-courses">0</dd></div>
+          </dl>
+
+          <table class="breakdown" id="breakdown">
+            <caption>Credits by US grade</caption>
+            <thead><tr><th scope="col">Grade</th><th scope="col">Credits</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="help uncounted" id="uncounted"></p>
+        </div>
+
+        <div class="pdf-area" id="pdf-area">
+          <div class="export-actions">
+            <button type="button" class="btn btn-primary" id="download-pdf">Download PDF</button>
+            <button type="button" class="btn" id="csv-export">Download for Excel (.csv)</button>
+          </div>
+          <p class="help pdf-help">PDF opens the print dialog; choose “Save as PDF”.</p>
+
+          <details class="details-form" id="details-form">
+            <summary>Add your details to the PDF (optional)</summary>
+            <p class="help">Shown only on the PDF. Leave any field blank to skip it.</p>
+            <div class="fields">
+              <label>Name<input type="text" data-detail="name" autocomplete="name"></label>
+              <label>University<input type="text" data-detail="university" autocomplete="organization"></label>
+              <label>Degree or programme<input type="text" data-detail="programme" autocomplete="off"></label>
+              <label>Campus or college<input type="text" data-detail="campus" autocomplete="off"></label>
+              <label>Registration or roll number<input type="text" data-detail="regNo" autocomplete="off"></label>
+            </div>
+          </details>
+        </div>
+        <p class="help pdf-off" id="pdf-off" hidden>The PDF lists your courses, so it’s available in By course mode.</p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="report" id="report" aria-hidden="true">
+    <header class="report-head">
+      <div>
+        <h1>GPA estimate</h1>
+        <dl class="report-details" id="report-details"></dl>
+        <p id="report-meta"></p>
+      </div>
+      <div class="report-stamp" id="report-stamp"></div>
+    </header>
+    <div class="report-tables" id="report-tables"></div>
+    <p class="report-total" id="report-total"></p>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p class="footer-note">
+        Unofficial estimate; results may differ from official evaluations such as WES.
+        Grade scales from <a href="https://www.scholaro.com/db/Countries/Nepal/Grading-System" rel="noopener">Scholaro</a><span class="screen-only"> (not affiliated).</span><span class="print-only"> (scholaro.com, not affiliated).</span>
+      </p>
+      <p class="footer-links">
+        <a href="https://github.com/hemantapkh/nepal-to-us-gpa" rel="noopener">Source on GitHub</a>
+        <a href="https://hemantapkh.com" rel="noopener">Built by Hemanta Pokharel</a>
+      </p>
+      <p class="print-links" id="print-links"></p>
+    </div>
+  </footer>
+
+  <dialog class="paste-dialog bands-dialog" id="bands-dialog" aria-labelledby="bands-title">
+    <div class="dialog-head">
+      <div>
+        <h2 id="bands-title">How marks map to US grades</h2>
+        <p class="help" id="bands-scale"></p>
+      </div>
+      <button type="button" class="btn btn-quiet close-btn" id="close-bands">Close</button>
+    </div>
+    <div class="table-scroll">
+      <table class="bands-table" id="bands-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="help">Bands marked “not counted”, such as Pass or Incomplete, are left out of the GPA.</p>
+  </dialog>
+
+  <dialog class="paste-dialog" id="paste-dialog" aria-labelledby="paste-title">
+    <form method="dialog" id="paste-form">
+      <h2 id="paste-title">Paste from spreadsheet</h2>
+      <p class="help" id="paste-help">In Excel or Google Sheets, select the course, credits and mark columns, copy, and paste here. One course per line.</p>
+      <label for="paste-text" class="sr-only">Rows to paste</label>
+      <textarea id="paste-text" rows="8" spellcheck="false" aria-describedby="paste-help paste-count" placeholder="Calculus I&#9;3&#9;78&#10;Physics Lab&#9;1.5&#9;85"></textarea>
+      <p class="paste-count" id="paste-count" aria-live="polite">Nothing pasted yet.</p>
+      <div class="dialog-actions">
+        <button type="submit" value="add" class="btn btn-primary" id="paste-add" disabled>Add courses</button>
+        <button type="submit" value="cancel" class="btn btn-quiet" formnovalidate>Cancel</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

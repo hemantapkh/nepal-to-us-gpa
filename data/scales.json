@@ -1,0 +1,803 @@
+{
+  "source": {
+    "name": "Scholaro",
+    "title": "Nepal Grading System",
+    "url": "https://www.scholaro.com/db/Countries/Nepal/Grading-System",
+    "retrieved": "2026-11-22"
+  },
+  "defaultScale": "tu-ug-pass40",
+  "notes": "US grades not listed in gpaPoints (e.g. P, S, -) are excluded from the GPA. Rows are matched by min <= mark <= max, highest min first; marks in a small rounding gap (<= 1 point) between rows go to the lower row; larger gaps show 'no mapping'.",
+  "gpaPoints": {
+    "4.0": {
+      "A+": 4.0,
+      "A": 4.0,
+      "A-": 3.7,
+      "B+": 3.3,
+      "B": 3.0,
+      "B-": 2.7,
+      "C+": 2.3,
+      "C": 2.0,
+      "C-": 1.7,
+      "D+": 1.3,
+      "D": 1.0,
+      "D-": 0.7,
+      "F": 0.0
+    },
+    "4.3": {
+      "A+": 4.3,
+      "A": 4.0,
+      "A-": 3.7,
+      "B+": 3.3,
+      "B": 3.0,
+      "B-": 2.7,
+      "C+": 2.3,
+      "C": 2.0,
+      "C-": 1.7,
+      "D+": 1.3,
+      "D": 1.0,
+      "D-": 0.7,
+      "F": 0.0
+    }
+  },
+  "scales": [
+    {
+      "id": "most-common",
+      "name": "Most Common",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Distinction (Division I)",
+          "usGrade": "A+"
+        },
+        {
+          "min": 60,
+          "max": 79.99,
+          "description": "Division I",
+          "usGrade": "A"
+        },
+        {
+          "min": 46,
+          "max": 59.99,
+          "description": "Merit (Division II)",
+          "usGrade": "B"
+        },
+        {
+          "min": 32,
+          "max": 45.99,
+          "description": "Pass (Division III)",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 31.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "secondary-school",
+      "name": "Secondary School",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Division I with Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 60,
+          "max": 79.99,
+          "description": "Division I",
+          "usGrade": "A"
+        },
+        {
+          "min": 45,
+          "max": 59.99,
+          "description": "Division II",
+          "usGrade": "B"
+        },
+        {
+          "min": 32,
+          "max": 44.99,
+          "description": "Division III",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 31.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "secondary-technical-nursing",
+      "name": "Secondary School Technical (Nursing Proficiency Certificate)",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 65,
+          "max": 79.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 50,
+          "max": 64.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 40,
+          "max": 49.99,
+          "description": "Pass Division",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "secondary-2016",
+      "name": "Secondary School (Effective 2016)",
+      "type": "percentage",
+      "rows": [
+        {
+          "letter": "A+",
+          "min": 90,
+          "max": 100,
+          "nepalGpa": 4.0,
+          "description": "Outstanding",
+          "usGrade": "A+"
+        },
+        {
+          "letter": "A",
+          "min": 80,
+          "max": 89,
+          "nepalGpa": 3.6,
+          "description": "Excellent",
+          "usGrade": "A"
+        },
+        {
+          "letter": "B+",
+          "min": 70,
+          "max": 79,
+          "nepalGpa": 3.2,
+          "description": "Very Good",
+          "usGrade": "B"
+        },
+        {
+          "letter": "B",
+          "min": 60,
+          "max": 69,
+          "nepalGpa": 2.8,
+          "description": "Good",
+          "usGrade": "B"
+        },
+        {
+          "letter": "C+",
+          "min": 50,
+          "max": 59,
+          "nepalGpa": 2.4,
+          "description": "Above Average",
+          "usGrade": "C"
+        },
+        {
+          "letter": "C",
+          "min": 40,
+          "max": 49,
+          "nepalGpa": 2.0,
+          "description": "Average",
+          "usGrade": "C"
+        },
+        {
+          "letter": "D+",
+          "min": 30,
+          "max": 39,
+          "nepalGpa": 1.8,
+          "description": "Below Average",
+          "usGrade": "D"
+        },
+        {
+          "letter": "D",
+          "min": 20,
+          "max": 29,
+          "nepalGpa": 1.6,
+          "description": "Above Insufficient",
+          "usGrade": "D"
+        },
+        {
+          "letter": "E",
+          "min": 0,
+          "max": 19,
+          "nepalGpa": 0.8,
+          "description": "Insufficient",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "university-level",
+      "name": "University Level",
+      "type": "letter",
+      "rows": [
+        {
+          "letter": "A",
+          "description": "Outstanding",
+          "usGrade": "A"
+        },
+        {
+          "letter": "A-",
+          "description": "Excellent",
+          "usGrade": "A-"
+        },
+        {
+          "letter": "B+",
+          "description": "Very Good",
+          "usGrade": "B+"
+        },
+        {
+          "letter": "B",
+          "description": "Good",
+          "usGrade": "B"
+        },
+        {
+          "letter": "B-",
+          "description": "Fair",
+          "usGrade": "B-"
+        },
+        {
+          "letter": "C+",
+          "description": "Fair",
+          "usGrade": "C+"
+        },
+        {
+          "letter": "C",
+          "description": "Fair",
+          "usGrade": "C"
+        },
+        {
+          "letter": "C-",
+          "description": "Poor",
+          "usGrade": "C-"
+        },
+        {
+          "letter": "D+",
+          "description": "Poor",
+          "usGrade": "D+"
+        },
+        {
+          "letter": "D",
+          "description": "Poor",
+          "usGrade": "D"
+        },
+        {
+          "letter": "F",
+          "description": "Failure",
+          "usGrade": "F"
+        },
+        {
+          "letter": "NC",
+          "description": "Non Credit Course",
+          "usGrade": "P"
+        },
+        {
+          "letter": "IN",
+          "description": "Incomplete",
+          "usGrade": "-"
+        }
+      ]
+    },
+    {
+      "id": "university-pass50",
+      "name": "University Pass at 50",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 75,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 65,
+          "max": 74.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 50,
+          "max": 64.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 0,
+          "max": 49.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-undergraduate",
+      "name": "Tribhuvan University Undergraduate",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 65,
+          "max": 79.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 50,
+          "max": 64.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 40,
+          "max": 49.99,
+          "description": "Pass",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "letter-plus-minus",
+      "name": "Letter grade +/-",
+      "type": "letter",
+      "rows": [
+        {
+          "letter": "A+",
+          "description": "A+",
+          "usGrade": "A+"
+        },
+        {
+          "letter": "A",
+          "description": "A",
+          "usGrade": "A"
+        },
+        {
+          "letter": "A-",
+          "description": "A-",
+          "usGrade": "A-"
+        },
+        {
+          "letter": "B+",
+          "description": "B+",
+          "usGrade": "B+"
+        },
+        {
+          "letter": "B",
+          "description": "B",
+          "usGrade": "B"
+        },
+        {
+          "letter": "B-",
+          "description": "B-",
+          "usGrade": "B-"
+        },
+        {
+          "letter": "C+",
+          "description": "C+",
+          "usGrade": "C+"
+        },
+        {
+          "letter": "C",
+          "description": "C",
+          "usGrade": "C"
+        },
+        {
+          "letter": "C-",
+          "description": "C-",
+          "usGrade": "C-"
+        },
+        {
+          "letter": "D+",
+          "description": "D+",
+          "usGrade": "D+"
+        },
+        {
+          "letter": "D",
+          "description": "D",
+          "usGrade": "D"
+        },
+        {
+          "letter": "D-",
+          "description": "D-",
+          "usGrade": "D-"
+        },
+        {
+          "letter": "F",
+          "description": "F",
+          "usGrade": "F"
+        },
+        {
+          "letter": "Pass",
+          "description": "Pass",
+          "usGrade": "S"
+        }
+      ]
+    },
+    {
+      "id": "ib-diploma",
+      "name": "International Baccalaureate Diploma",
+      "type": "points",
+      "rows": [
+        {
+          "min": 6,
+          "max": 7,
+          "description": "6–7",
+          "usGrade": "A"
+        },
+        {
+          "min": 5,
+          "max": 5.99,
+          "description": "5",
+          "usGrade": "B"
+        },
+        {
+          "min": 4,
+          "max": 4.99,
+          "description": "4",
+          "usGrade": "C"
+        },
+        {
+          "min": 3,
+          "max": 3.99,
+          "description": "3",
+          "usGrade": "D"
+        },
+        {
+          "min": 1,
+          "max": 2.99,
+          "description": "1–2",
+          "usGrade": "F"
+        },
+        {
+          "min": 0,
+          "max": 0.99,
+          "description": "0",
+          "usGrade": "F"
+        },
+        {
+          "letter": "P",
+          "description": "Passing",
+          "usGrade": "S"
+        }
+      ]
+    },
+    {
+      "id": "afu",
+      "name": "Agriculture and Forestry University",
+      "type": "percentage",
+      "rows": [
+        {
+          "letter": "A",
+          "min": 80,
+          "max": 100,
+          "description": "Excellent",
+          "usGrade": "A"
+        },
+        {
+          "letter": "B",
+          "min": 65,
+          "max": 79.99,
+          "description": "Good",
+          "usGrade": "B"
+        },
+        {
+          "letter": "C",
+          "min": 50,
+          "max": 64.99,
+          "description": "Fair",
+          "usGrade": "C"
+        },
+        {
+          "letter": "D",
+          "min": 40,
+          "max": 49.99,
+          "description": "Poor",
+          "usGrade": "D"
+        },
+        {
+          "letter": "F",
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "purbanchal",
+      "name": "Purbanchal University",
+      "type": "letter",
+      "rows": [
+        {
+          "letter": "A+",
+          "nepalGpa": 4.0,
+          "description": "Excellent",
+          "usGrade": "A"
+        },
+        {
+          "letter": "A",
+          "nepalGpa": 3.75,
+          "description": "Distinction",
+          "usGrade": "A-"
+        },
+        {
+          "letter": "B+",
+          "nepalGpa": 3.5,
+          "description": "First",
+          "usGrade": "B+"
+        },
+        {
+          "letter": "B",
+          "nepalGpa": 3.0,
+          "description": "Second",
+          "usGrade": "B"
+        },
+        {
+          "letter": "C",
+          "nepalGpa": 2.5,
+          "description": "Pass",
+          "usGrade": "C"
+        },
+        {
+          "letter": "D",
+          "nepalGpa": 1.75,
+          "description": "Fair",
+          "usGrade": "D"
+        },
+        {
+          "letter": "F",
+          "nepalGpa": 0.0,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-graduate-pass40",
+      "name": "Tribhuvan Graduate (Pass at 40)",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 75,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 60,
+          "max": 74.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 50,
+          "max": 59.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 40,
+          "max": 49.99,
+          "description": "Pass",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-bba",
+      "name": "Tribhuvan University (BBA)",
+      "type": "letter",
+      "rows": [
+        {
+          "letter": "A",
+          "description": "First Division with Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "letter": "B",
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "letter": "C",
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "letter": "D",
+          "description": "Pass Division",
+          "usGrade": "C"
+        },
+        {
+          "letter": "F",
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-master",
+      "name": "Tribhuvan University (Master)",
+      "type": "percentage",
+      "note": "Scholaro lists no 40–49.99 row for this scale; marks in that gap show \"no mapping\".",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 65,
+          "max": 79.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 50,
+          "max": 64.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-pass40-alternate",
+      "name": "Tribhuvan University Pass at 40 Alternate",
+      "type": "percentage",
+      "note": "Scholaro's published ranges overlap at 45–45.99; the higher row (Second Division) is applied.",
+      "rows": [
+        {
+          "min": 75,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 60,
+          "max": 74.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 45,
+          "max": 59.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 40,
+          "max": 45.99,
+          "description": "Pass",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-ug-pass35",
+      "name": "Tribhuvan University Undergraduate (Pass at 35)",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 75,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 60,
+          "max": 74.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 45,
+          "max": 59.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 35,
+          "max": 44.99,
+          "description": "Pass Division",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 34.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    },
+    {
+      "id": "tu-ug-pass40",
+      "name": "Tribhuvan University Undergraduate (Pass at 40)",
+      "type": "percentage",
+      "rows": [
+        {
+          "min": 80,
+          "max": 100,
+          "description": "Distinction",
+          "usGrade": "A+"
+        },
+        {
+          "min": 70,
+          "max": 79.99,
+          "description": "First Division",
+          "usGrade": "A"
+        },
+        {
+          "min": 55,
+          "max": 69.99,
+          "description": "Second Division",
+          "usGrade": "B"
+        },
+        {
+          "min": 40,
+          "max": 54.99,
+          "description": "Pass Division",
+          "usGrade": "C"
+        },
+        {
+          "min": 0,
+          "max": 39.99,
+          "description": "Fail",
+          "usGrade": "F"
+        }
+      ]
+    }
+  ]
+}
