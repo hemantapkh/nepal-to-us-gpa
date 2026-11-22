@@ -87,7 +87,7 @@ export function resolveMark(scale, raw) {
   }
   const max = scaleMax(scale);
   if (scale.type === 'percentage' && mark > 100) {
-    return { error: 'Out of more than 100? Enter marks/full marks, e.g. 187/200' };
+    return { error: 'Over 100? Type it as marks/full marks, e.g. 187/200' };
   }
   if (mark < 0 || mark > max) return { error: `Mark must be between 0 and ${max}` };
   const row = findRow(scale, mark);

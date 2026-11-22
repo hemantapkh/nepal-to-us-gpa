@@ -168,8 +168,13 @@ function updateResults() {
   result.results.forEach((r, i) => {
     const tr = tbody.children[i];
     if (!tr) return;
-    // Problems still count against the GPA, but are only shown once the row is touched.
-    const bad = (r.status === 'invalid' || r.status === 'nomap') && touched.has(r.row);
+    // Problems still count against the GPA. Missing fields are only flagged once the row
+    // is touched; a mark that is already wrong (e.g. 187 out of 100) is flagged right away,
+    // since its message says how to fix it.
+    const course = state.rows[i]; // r.row is the matched scale band, not the course
+    const problem = r.status === 'invalid' || r.status === 'nomap';
+    const markWrong = problem && String(course.mark).trim() !== '' && !/credit|^Enter /i.test(r.error);
+    const bad = problem && (touched.has(course) || markWrong);
     tr.classList.toggle('has-error', bad);
     tr.classList.toggle('is-excluded', r.status === 'excluded');
     tr.querySelector('[data-out="us"]').textContent = r.usGrade ?? (r.status === 'nomap' ? 'None' : '');
